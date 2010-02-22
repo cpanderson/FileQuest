@@ -1,13 +1,26 @@
 FileQuest
 =========
 
-Introduction goes here.
+This plugin accesses Spotlight indexes on OS X and locate indexes on linux. It assumes that the user 
+the rails server is running as has access to the indexes specified when initializing FileQuest and also
+that Spotlight and locate are functioning normally.
 
+Usage: FileQuest::Search.new(<directory path for search>, <search term>, <options>)
 
-Example
+Options:
+		:name      => (true||false)   search for file name only, not contents (Spotlight only)
+		:doc       => (true||false)   search for documents
+		:xls       => (true||false)   search for spreadsheets
+		:pdf       => (true||false)   search for pdfs
+		:all       => (true||false)   search for docs, spreadsheets and pdfs
+
+Examples
 =======
 
-Example goes here.
+@files = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => true, :doc => true, :pdf => true})
 
-
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Methods: 
+		@files.dir 		"Shared/Public"
+		@files.query	"stuff"
+		@files.command  <returns command used to execute seach>
+		@files.search   <executes search>
