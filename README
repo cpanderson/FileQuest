@@ -7,7 +7,7 @@ rails server has access to properly running SpotLight and Locate services and fi
 Usage: FileQuest::Search.new(<directory path for search>, <search term>, <options>)
 
 Options:
-		:name      => (true||false)   search for file name only, not contents (Spotlight only)
+		:name_only => (true||false)   search for file name only, not contents (Spotlight only)
 		:doc       => (true||false)   search for documents
 		:xls       => (true||false)   search for spreadsheets
 		:pdf       => (true||false)   search for pdfs
@@ -21,5 +21,5 @@ Examples
 Methods: 
 		@files.dir 		"Shared/Public"
 		@files.query	"stuff"
-		@files.command  <returns command used to execute seach>
+		@files.command  <returns command used to execute search>
 		@files.search   <executes search>

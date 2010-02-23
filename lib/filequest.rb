@@ -2,10 +2,20 @@ module FileQuest
   
   class Search
     
+    @@slocate_db_path = "/var/lib/slocate/slocate.db" # default on linux root directory
+    
+    def slocate_db_path=(path)
+      @@slocate_db_path = path
+    end
+    
+    def slocate_db_path
+      @@slocate_db_path
+    end
+    
     def initialize(directory, query, options = {})
       @dir = directory
       @query = query
-      options.assert_valid_keys(:name, :doc, :xls, :pdf, :all)
+      options.assert_valid_keys(:name_only, :doc, :xls, :pdf, :all)
       @options = options
     end
     
@@ -24,11 +34,10 @@ module FileQuest
     def command
       if RUBY_PLATFORM =~ /darwin/
         @command = "mdfind -onlyin #{dir}"
-        @command += ' -name "' + query + '"' if @options[:name]
-        @command += " " + query if ! @options[:name_only]
+        @command += ' -name' if @options[:name_only]
+        @command += " '#{query}'"
       elsif RUBY_PLATFORM =~ /linux/
-        #@command = 'locate ' + query + " | grep " + dir
-        @command = 'locate -d /mnt/merserv/var/lib/slocate/slocate.db ' + query + " | grep -iE '" + dir + ".*\.(doc|pdf|xls)'"
+        @command = "locate -d '#{@@slocate_db_path}' #{query} | grep -iE '#{dir}.*.(doc|pdf|xls)'"
       end
       @command
     end
