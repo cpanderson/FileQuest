@@ -48,14 +48,19 @@ module FileQuest
         @command += " '#{query}'"
       elsif RUBY_PLATFORM =~ /linux/
         @command = "locate -d '#{@@slocate_db_path}' #{query} | grep -iE '#{dir}'"
+      else
+        @command = nil
       end
       @command
     end
     
     def search
-      command
-      results = %x[#{@command}]
-      results.split(/\n/)
+      if command
+        results = %x[#{@command}]
+        results.split(/\n/)
+      else
+        "Sorry, this only works on Mac OS X or Linux"
+      end
     end
     
     private
