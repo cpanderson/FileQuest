@@ -3,19 +3,29 @@ module FileQuest
   class Search
     
     @@slocate_db_path = "/var/lib/slocate/slocate.db" # default on linux root directory
+
+    @@name_only_default = true
     
-    def slocate_db_path=(path)
+    def fq_slocate_db_path=(path)
       @@slocate_db_path = path
     end
     
-    def slocate_db_path
+    def fq_slocate_db_path
       @@slocate_db_path
     end
     
-    def initialize(directory, query, options = {})
+    def fq_name_only_default=(default)
+      @@name_only_default = default
+    end
+    
+    def fq_name_only_default
+      @@name_only_default
+    end
+    
+    def initialize(directory, query, options = {:name_only => @@name_only_default})
       @dir = directory
       @query = query
-      options.assert_valid_keys(:name_only, :doc, :xls, :pdf, :all)
+      options.assert_valid_keys(:name_only)
       @options = options
     end
     
@@ -37,7 +47,7 @@ module FileQuest
         @command += ' -name' if @options[:name_only]
         @command += " '#{query}'"
       elsif RUBY_PLATFORM =~ /linux/
-        @command = "locate -d '#{@@slocate_db_path}' #{query} | grep -iE '#{dir}.*.(doc|pdf|xls)'"
+        @command = "locate -d '#{@@slocate_db_path}' #{query} | grep -iE '#{dir}'"
       end
       @command
     end
