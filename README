@@ -10,21 +10,37 @@ On Mac OS X you can also use the same search filters like...
 
 kind:pdf, kind:jpeg, kind:word, kind:folder, kind:image, kind:audio, date:today, date:yesterday
 
+
+How To Install
+==============
+
+script/plugin install git://github.com/cpanderson/FileQuest.git
+
+start/restart rails server
+
+
+How To Use
+==========
+
+Check out the demo directory inside the plugin directory for a controller and view example.
+
 Usage: FileQuest::Search.new(<directory path for search>, <search term>, <options>)
 
-Options:
-		:name_only => (true||false)   ...search for file name only, not contents (Spotlight only), default = true
+Options: :name_only => (true||false)   ...search for file name only, not contents (Spotlight only), default = true
 		
+
 Examples
 =======
 
-@files = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => false})
+new_search = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => false})
+new_search = FQSearch.new("/Projects", "invoices kind:pdf") 
+new_search.query
+new_search.command
+@files = new_search.run
 
-@files = FileQuest::Search.new("/Projects", "invoices kind:pdf") 
-
-Methods: 
-		@files.dir 		"Shared/Public"
-		@files.query	"stuff"
-		@files.options  "{:name_only => true}"
-		@files.command  <returns command used to execute search>
-		@files.search   <executes search>
+Class Methods: 
+		dir, query, options, command, search, run (search alias)
+		
+Instance Methods:
+		id, path, dirname, filename, extension, filetype, filesize (in bytes)
+		
