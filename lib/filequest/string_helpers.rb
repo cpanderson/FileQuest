@@ -22,4 +22,8 @@ class String
   def filesize
     File.size(self)
   end
+  
+  def filetype
+    File.extname(self).gsub(/\./, "")
+  end
 end

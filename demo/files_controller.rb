@@ -3,11 +3,9 @@ class FilesController < ActionController::Base
   def index
     if params[:query]
       @query = params[:query]
-      new_search = FQSearch.new("/some/path", @query)
+      new_search = FQSearch.new("/Documents", @query)
       @files = new_search.run
-    end
-    if @files.size > 0
-      Rails.cache.write('file_quest', @files)
+      Rails.cache.write('file_quest', @files) if @files.size > 0
     end
   end
   
