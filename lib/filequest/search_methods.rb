@@ -28,9 +28,11 @@ module SearchMethods
   def search
     if command
       results = %x[#{@command}]
-      filepaths = []
+      filepaths = {}
+      count = 0
       results.split(/\n/).each do |f|
-        filepaths += [f] if ! File.directory?(f) # only return matching files, not directories
+        filepaths[count] = f if ! File.directory?(f) # only return matching files, not directories
+        count += 1
       end
       filepaths
     else
