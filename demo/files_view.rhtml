@@ -1,0 +1,17 @@
+<div>
+	<% form_tag({:action => ''}) do %>
+		<strong>Search:</strong> <%= text_field_tag 'query', '', options = {:value => @query, :size => 25, :maxlength => 25} %>		
+		<%= submit_tag("Go!") %>
+	<% end %>
+</div>
+
+<h3>Files</h3>
+
+<% if @files %>
+	<% @files.each do |f| %>
+	<div>					
+	  <%= f[1].dirname %> | <%= link_to f[1].basename, :action => 'download', :id => f[0] %> | <%= f[1].filesize %>
+	</div>
+	<% end %>
+</div>
+<% end %>
