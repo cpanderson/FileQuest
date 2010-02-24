@@ -12,7 +12,7 @@ class FilesController < ActionController::Base
   def download
     files = Rails.cache.read('file_quest')
     file = files[params[:id].to_i]
-    send_file(file, :type => file.extname.gsub(/\./, ""), :filename => file.basename)
+    send_file(file.path, :type => file.filetype, :filename => file.filename)
   end
   
 end

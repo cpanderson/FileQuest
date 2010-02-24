@@ -3,6 +3,20 @@ require 'filequest/string_helpers'
 
 module FileQuest
   
+  class Item
+    attr_accessor :id, :path, :dirname, :filename, :extension, :filetype, :filesize
+
+    def initialize(id, file)
+      @id = id
+      @path = file
+      @dirname = File.dirname(file)
+      @filename = File.basename(file)
+      @extension = File.extname(file)
+      @filetype = File.extname(file).gsub(/\./, "")
+      @filesize = File.size(file)
+    end
+  end
+  
   class Search
     class_inheritable_accessor :slocate_db_path, :name_only_default
     
@@ -19,6 +33,10 @@ module FileQuest
     include SearchMethods
   end
   
+end
+
+# aliases
+class FQItem < FileQuest::Item
 end
 
 class FQSearch < FileQuest::Search  

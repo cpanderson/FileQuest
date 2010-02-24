@@ -10,7 +10,7 @@
 <% if @files %>
 	<% @files.each do |f| %>
 	<div>					
-	  <%= f[1].dirname %> | <%= link_to f[1].basename, :action => 'download', :id => f[0] %> | <%= f[1].filesize %>
+	  <%= f.dirname %> | <%= link_to f.filename, :action => 'download', :id => f.id %> | <%= f.filesize %>
 	</div>
 	<% end %>
 </div>

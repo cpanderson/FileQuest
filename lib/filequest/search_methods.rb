@@ -27,14 +27,15 @@ module SearchMethods
   
   def search
     if command
-      results = %x[#{@command}]
-      filepaths = {}
+      results = []
       count = 0
-      results.split(/\n/).each do |f|
-        filepaths[count] = f if ! File.directory?(f) # only return matching files, not directories
-        count += 1
+      %x[#{@command}].split(/\n/).each do |f|
+        if ! File.directory?(f) # only return matching files, not directories
+          results << FQItem.new(count, f)
+          count += 1
+        end
       end
-      filepaths
+      results
     else
       "Sorry, this only works on Mac OS X or Linux"
     end
