@@ -28,10 +28,18 @@ module SearchMethods
   def search
     if command
       results = %x[#{@command}]
-      results.split(/\n/)
+      filepaths = []
+      results.split(/\n/).each do |f|
+        filepaths += [f] if ! File.directory?(f) # only return matching files, not directories
+      end
+      filepaths
     else
       "Sorry, this only works on Mac OS X or Linux"
     end
+  end
+  
+  def run
+    search
   end
   
   private
