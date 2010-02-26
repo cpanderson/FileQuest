@@ -1,5 +1,4 @@
 require 'filequest/search_methods'
-require 'filequest/string_helpers'
 
 module FileQuest
   
