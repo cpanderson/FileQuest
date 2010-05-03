@@ -14,7 +14,7 @@ module SearchMethods
   
   def command
     if RUBY_PLATFORM =~ /darwin/
-      @command = "mdfind -onlyin #{dir}"
+      @command = "mdfind -onlyin '#{dir}'"
       @command += ' -name' if @options[:name_only]
       @command += " '#{query}'"
     elsif RUBY_PLATFORM =~ /linux/
