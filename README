@@ -36,11 +36,16 @@ new_search = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => fal
 new_search = FQSearch.new("/Projects", "invoices kind:pdf") 
 new_search.query
 new_search.command
+
 @files = new_search.run
 
-Class Methods: 
+@files.each do |f|
+	puts f.path
+end
+	
+Instance Methods: 
 		dir, query, options, command, search, run (search alias)
 		
-Instance Methods:
+File Methods:
 		id, path, dirname, filename, extension, filetype, filesize (in bytes)
 		
