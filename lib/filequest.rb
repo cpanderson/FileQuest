@@ -1,9 +1,10 @@
 require 'filequest/search_methods'
+require 'filequest/helpers'
 
 module FileQuest
   
   class Item
-    attr_accessor :id, :path, :dirname, :filename, :extension, :filetype, :filesize
+    attr_accessor :id, :path, :dirname, :filename, :extension, :filetype, :filesize, :last_modified
 
     def initialize(id, file)
       @id = id
@@ -13,6 +14,7 @@ module FileQuest
       @extension = File.extname(file)
       @filetype = File.extname(file).gsub(/\./, "")
       @filesize = File.size(file)
+      @last_modified = File.mtime(file)
     end
   end
   
