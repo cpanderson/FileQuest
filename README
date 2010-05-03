@@ -47,5 +47,14 @@ Instance Methods:
 		dir, query, options, command, search, run (search alias)
 		
 File Methods:
-		id, path, dirname, filename, extension, filetype, filesize (in bytes)
+		id, path, dirname, filename, extension, filetype, filesize (in bytes), last_modified
 		
+Helper Methods:
+		fq_omit_dir_levels(file, levels)
+			omit x levels of directory starting from the base
+	  		ie. fq_omit_dir_levels("/Base/Dir 1/Dir 2/Dir 3", 2) => "/Dir 2/Dir 3"
+	  	
+		fq_readable_size(file, precision = 2)
+	  		outputs bytes into human readable format
+	  		ie. fq_readable_size(1000) => "1 KB"
+	  
