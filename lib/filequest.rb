@@ -1,9 +1,10 @@
 require 'filequest/search_methods'
+require 'filequest/browse_methods'
 require 'filequest/helpers'
 
 module FileQuest
   
-  class Item
+  class FileItem
     attr_accessor :id, :path, :dirname, :filename, :extension, :filetype, :filesize, :last_modified
 
     def initialize(id, file)
@@ -15,6 +16,41 @@ module FileQuest
       @filetype = File.extname(file).gsub(/\./, "")
       @filesize = File.size(file)
       @last_modified = File.mtime(file)
+    end
+    
+    def file?
+      true
+    end
+    
+    def dir?
+      false
+    end
+    
+    def type
+      "f"
+    end
+  end
+  
+  class DirItem
+    attr_accessor :id, :path, :dirname, :last_modified
+    
+    def initialize(id, dir)
+      @id = id
+      @path = dir
+      @dirname = File.basename(dir)
+      @last_modified = File.mtime(dir)
+    end
+    
+    def file?
+      false
+    end
+    
+    def dir?
+      true
+    end
+    
+    def type
+      "d"
     end
   end
   
@@ -34,11 +70,25 @@ module FileQuest
     include SearchMethods
   end
   
+  class Browse
+    def initialize(directory)
+      @base_dir = directory
+    end
+    
+    include BrowseMethods
+  end
+  
 end
 
 # aliases
-class FQItem < FileQuest::Item
+class FQFileItem < FileQuest::FileItem
+end
+
+class FQDirItem < FileQuest::DirItem
 end
 
 class FQSearch < FileQuest::Search  
+end
+
+class FQBrowse < FileQuest::Browse
 end
