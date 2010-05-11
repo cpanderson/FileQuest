@@ -38,15 +38,18 @@ Usage:
 Examples
 
 new_search = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => false})
-new_search = FQSearch.new("/Projects", "invoices kind:pdf") 
+  or
+new_search = FQSearch.new("/Shared/Public", "invoices kind:pdf") 
 new_search.query => "invoices kind:pdf"
-new_search.command => "mdfind -onlyin '/Projects' 'invoices kind:pdf'"
+new_search.command => "mdfind -onlyin '/Shared Public' 'invoices kind:pdf'"
 @files = new_search.run
 @files.each do |f|
 	puts f.path
 end
 
 new_browser = FileQuest::Browse.new("/Shared/Public")
+  or
+new_browser = FQBrowse.new("/Shared/Public")
 new_browser.base_dir => "/Shared/Public"
 @items = new_browser.contents
 @items.each do |i|
@@ -58,8 +61,8 @@ Instance Methods:
 		Browse: base_dir, current_dir, previous_dir, trail
 		
 File/Directory Methods:
-		File: id, path, dirname, filename, extension, filetype, filesize (in bytes), last_modified
-		Directory: id, path, dirname, last_modified
+		File: id, path, dirname, filename, extension, filetype, filesize (in bytes), last_modified, file?, dir?, type
+		Directory: id, path, dirname, last_modified, file?, dir?, type
 		
 Helper Methods:
 		fq_omit_dir_levels(file, levels)
