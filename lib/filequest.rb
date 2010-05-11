@@ -34,10 +34,12 @@ module FileQuest
   class DirItem
     attr_accessor :id, :path, :dirname, :last_modified
     
-    def initialize(id, dir)
+    def initialize(id, dir, options = {})
       @id = id
       @path = dir
-      @dirname = File.basename(dir)
+      options.assert_valid_keys(:dirname)
+      @options = options
+      @dirname = options[:dirname] || File.basename(dir)
       @last_modified = File.mtime(dir)
     end
     
@@ -73,6 +75,8 @@ module FileQuest
   class Browse
     def initialize(directory)
       @base_dir = directory
+      @current_dir = directory
+      @trail = [directory]
     end
     
     include BrowseMethods

@@ -1,8 +1,9 @@
 FileQuest
 =========
 
-This plugin accesses Spotlight indexes on OS X and locate indexes on linux. It assumes that the 
-rails server has access to properly running SpotLight and Locate services and file shares.
+This plugin is a file browser and search utility. It provides a simple navigation and view of directories and files and
+accesses Spotlight indexes on OS X and locate indexes on linux. It assumes that the rails server has access to properly 
+running SpotLight and Locate services and file shares.
 
 On Mac OS X it can access both the content and the name of files. On linux only the name is searched.
 
@@ -16,6 +17,9 @@ How To Install
 
 script/plugin install git://github.com/cpanderson/FileQuest.git
 
+copy the icons from the vendor/plugins/FileQuest/images/file_icons/16px to 
+the public/images/fq_icons directory (this will be automated in a later version)
+
 start/restart rails server
 
 
@@ -24,29 +28,38 @@ How To Use
 
 Check out the demo directory inside the plugin directory for a controller and view example.
 
-Usage: FileQuest::Search.new(<directory path for search>, <search term>, <options>)
-
-Options: :name_only => (true||false)   ...search for file name only, not contents (Spotlight only), default = true
+Usage: 
+	FileQuest::Search.new(<directory path for search>, <search term>, <options>)
+		Options: :name_only => (true||false)   ...search for file name only, not contents (Spotlight only), default = true
+	
+	FileQuest::Browse.new(<base directory to start file browsing>)
 		
 
 Examples
 
 new_search = FileQuest::Search.new("/Shared/Public", "stuff", {:name_only => false})
 new_search = FQSearch.new("/Projects", "invoices kind:pdf") 
-new_search.query
-new_search.command
-
+new_search.query => "invoices kind:pdf"
+new_search.command => "mdfind -onlyin '/Projects' 'invoices kind:pdf'"
 @files = new_search.run
-
 @files.each do |f|
 	puts f.path
 end
+
+new_browser = FileQuest::Browse.new("/Shared/Public")
+new_browser.base_dir => "/Shared/Public"
+@items = new_browser.contents
+@items.each do |i|
+	puts i.id, i.type	
+end
 	
 Instance Methods: 
-		dir, query, options, command, search, run (search alias)
+		Search: dir, query, options, command, search, run (search alias)
+		Browse: base_dir, current_dir, previous_dir, trail
 		
-File Methods:
-		id, path, dirname, filename, extension, filetype, filesize (in bytes), last_modified
+File/Directory Methods:
+		File: id, path, dirname, filename, extension, filetype, filesize (in bytes), last_modified
+		Directory: id, path, dirname, last_modified
 		
 Helper Methods:
 		fq_omit_dir_levels(file, levels)
@@ -57,3 +70,10 @@ Helper Methods:
 	  		outputs bytes into human readable format
 	  		ie. fq_readable_size(1000) => "1 KB"
 	  
+		fq_truncate_dir(dir, chars)
+			truncate long directory names with a pop-up to get full directory
+		  	ie. fq_truncate_dir("/some/long/directory", 5) => "/some...(full)"
+		
+		fq_show_icon(item)
+			show the appropriate icon for directory or file
+			ie. fq_show_icon(<a directory object>) => 'image_tag("fq_icons/folder.png")'

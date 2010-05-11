@@ -2,8 +2,8 @@ module FileQuestHelper
   
   # omit x levels of directory starting from the base
   # ie. fq_omit_dir_levels("/Base/Dir 1/Dir 2/Dir 3", 2) => "/Dir 2/Dir 3"
-  def fq_omit_dir_levels(file, levels)
-    dirs = file.dirname.split('/')
+  def fq_omit_dir_levels(dir, levels)
+    dirs = dir.split('/')
     fullpath = ""
     dirs[(1 + levels)..dirs.size].each do |d|
       fullpath += "/" + d
