@@ -1,6 +1,8 @@
 FileQuest
 =========
 
+Version: 0.1
+
 This plugin is a file browser and search utility. It provides a simple navigation and view of directories and files and
 accesses Spotlight indexes on OS X and locate indexes on linux. It assumes that the rails server has access to properly 
 running SpotLight and Locate services and file shares.

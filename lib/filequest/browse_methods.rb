@@ -30,21 +30,19 @@ module BrowseMethods
   def contents
     dir_results = []
     file_results = []
-    count = 1
     Dir.entries(current_dir).each do |f|
       if (f =~ /^\./).nil? # ignore hidden files and ./.. directories
         full_path = current_dir + "/" + f
         if File.directory?(full_path)
-          dir_results << FQDirItem.new(count, full_path)
+          dir_results << FQDirItem.new(full_path)
         else
-          file_results << FQFileItem.new(count, full_path)
+          file_results << FQFileItem.new(full_path)
         end
-        count += 1
       end
     end
     dir_results = dir_results.sort!{|a,b| a.type <=> b.type} + file_results.sort!{|a,b| a.filename <=> b.filename}
     if current_dir != base_dir # put in a "previous" directory link
-      dir_results.insert(0, FQDirItem.new(0, previous_dir, :dirname => ".."))
+      dir_results.insert(0, FQDirItem.new(previous_dir, :dirname => ".."))
     end
     
     dir_results

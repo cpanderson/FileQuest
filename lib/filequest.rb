@@ -7,8 +7,8 @@ module FileQuest
   class FileItem
     attr_accessor :id, :path, :dirname, :filename, :extension, :filetype, :filesize, :last_modified
 
-    def initialize(id, file)
-      @id = id
+    def initialize(file)
+      @id = self.object_id
       @path = file
       @dirname = File.dirname(file)
       @filename = File.basename(file)
@@ -29,13 +29,17 @@ module FileQuest
     def type
       "f"
     end
+    
+    # def id
+    #       self.object_id
+    #     end
   end
   
   class DirItem
     attr_accessor :id, :path, :dirname, :last_modified
     
-    def initialize(id, dir, options = {})
-      @id = id
+    def initialize(dir, options = {})
+      @id = self.object_id
       @path = dir
       options.assert_valid_keys(:dirname)
       @options = options
@@ -54,6 +58,10 @@ module FileQuest
     def type
       "d"
     end
+    
+    # def id
+    #       self.object_id
+    #     end
   end
   
   class Search

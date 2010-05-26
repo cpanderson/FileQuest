@@ -28,11 +28,11 @@ module SearchMethods
   def search
     if command
       results = []
-      count = 0
+      #count = 0
       %x[#{@command}].split(/\n/).each do |f|
         if ! File.directory?(f) # only return matching files, not directories
-          results << FQFileItem.new(count, f)
-          count += 1
+          results << FQFileItem.new(f)
+          #count += 1
         end
       end
       results
