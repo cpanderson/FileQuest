@@ -65,15 +65,16 @@ module FileQuest
   end
   
   class Search
-    class_inheritable_accessor :slocate_db_path, :name_only_default
+    class_inheritable_accessor :slocate_db_path, :name_only_default, :timeout_default
     
     self.slocate_db_path = "/var/lib/slocate/slocate.db"
     self.name_only_default = true
+    self.timeout_default = 15
     
-    def initialize(directory, query, options = {:name_only => self.name_only_default})
+    def initialize(directory, query, options = {:name_only => self.name_only_default, :timeout => self.timeout_default})
       @dir = directory
       @query = query
-      options.assert_valid_keys(:name_only)
+      options.assert_valid_keys(:name_only, :timeout)
       @options = options
     end
   

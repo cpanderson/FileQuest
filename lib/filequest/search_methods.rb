@@ -1,17 +1,17 @@
 module SearchMethods
-  
+
   def dir
     @dir
   end
-  
+
   def query
     @query
   end
-  
+
   def options
     @options
   end
-  
+
   def command
     if RUBY_PLATFORM =~ /darwin/
       @command = "mdfind -onlyin '#{dir}'"
@@ -24,35 +24,44 @@ module SearchMethods
     end
     @command
   end
-  
+
   def search
     if command
-      results = []
-      #count = 0
-      %x[#{@command}].split(/\n/).each do |f|
-        if ! File.directory?(f) # only return matching files, not directories
-          results << FQFileItem.new(f)
-          #count += 1
+      @results = []
+      begin
+        timeout(@options[:timeout]) do
+          %x[#{@command}].split(/\n/).each do |f|
+            if !File.directory?(f) # only return matching files, not directories
+              @results << FQFileItem.new(f)
+            end
+          end
         end
+      rescue Timeout::Error
+        @results
       end
-      results
+      @results
     else
       "Sorry, this only works on Mac OS X or Linux"
     end
   end
-  
+
+
   def run
     search
   end
-  
+
+  def results
+    @results
+  end
+
   private
-  
+
   def spotlight
-    
+
   end
-  
+
   def slocate
-    
+
   end
-  
+
 end

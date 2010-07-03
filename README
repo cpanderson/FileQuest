@@ -1,7 +1,7 @@
 FileQuest
 =========
 
-Version: 0.1
+Version: 0.2
 
 This plugin is a file browser and search utility. It provides a simple navigation and view of directories and files and
 accesses Spotlight indexes on OS X and locate indexes on linux. It assumes that the rails server has access to properly 
@@ -33,7 +33,7 @@ Check out the demo directory inside the plugin directory for a controller and vi
 Usage: 
 	FileQuest::Search.new(<directory path for search>, <search term>, <options>)
 		Options: :name_only => (true||false)   ...search for file name only, not contents (Spotlight only), default = true
-	
+	             :timeout => (seconds)         ...timeout for search, default = 15
 	FileQuest::Browse.new(<base directory to start file browsing>)
 		
 
